@@ -29,9 +29,8 @@ static vector<int> split_numbers(string& s) {
 }
 
 static uint64_t wins(double time, double distance) {
-    double c = sqrt(time * time - 4 * distance),
-     min_distance = floor((time - c) / 2 + 1),
-     max_distance = ceil((time + c) / 2 - 1);
+    double c = sqrt(time * time - 4 * distance), min_distance = floor((time - c) / 2 + 1),
+           max_distance = ceil((time + c) / 2 - 1);
     return max_distance - min_distance + 1;
 }
 

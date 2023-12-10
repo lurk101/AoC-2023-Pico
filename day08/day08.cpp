@@ -1,4 +1,6 @@
 constexpr auto title = "--- Day 8: Haunted Wasteland ---";
+#include <pico/stdlib.h>
+
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -7,8 +9,6 @@ constexpr auto title = "--- Day 8: Haunted Wasteland ---";
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include <pico/stdlib.h>
 
 using namespace std;
 using namespace chrono;
@@ -66,7 +66,5 @@ int main() {
     cout << title << endl
          << "Part 1  - " << part1() << endl
          << "Part 2  - " << part2() << endl
-         << "Elapsed - "
-         << (time_us_32() - start) / 1000.0
-         << " ms." << endl;
+         << "Elapsed - " << (time_us_32() - start) / 1000.0 << " ms." << endl;
 }
