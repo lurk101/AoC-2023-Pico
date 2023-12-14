@@ -66,10 +66,8 @@ static uint64_t solve(string s, vector<uint32_t> c) {
                     dot = 1;
                 }
                 nstates[{si + 1, ci, cc, dot}] += num;
-            } else if ((s[si] == '.' || s[si] == '?') && cc == 0) {
-                dot = 0;
-                nstates[{si + 1, ci, cc, dot}] += num;
-            }
+            } else if ((s[si] == '.' || s[si] == '?') && cc == 0)
+                nstates[{si + 1, ci, 0, 0}] += num;
         }
         states = nstates;
         nstates.clear();
