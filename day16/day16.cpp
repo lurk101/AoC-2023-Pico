@@ -88,9 +88,9 @@ static uint32_t energy(list<beam_t>& beams) {
         }
     }
     int count = 0;
-    for (int y = 0; y < grid.size(); y++)
-        for (int x = 0; x < grid[0].size(); x++)
-            if (visited[y][x]) count++;
+    for (auto& row : visited)
+        for (auto c : row)
+            if (c) count++;
     return count;
 }
 
