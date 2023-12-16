@@ -18,18 +18,6 @@ enum dir { R, D, L, U };
 struct beam_t {
     int x, y;
     dir d;
-    bool operator==(const beam_t& b) const { return (x == b.x) && (y == b.y) && (d == b.d); }
-    struct hash_function {
-        size_t operator()(const beam_t& t) const { return ((uint64_t(t.x) << 32) | t.y) ^ t.d; }
-    };
-};
-
-struct point_t {
-    int x, y;
-    bool operator==(const point_t& b) const { return (x == b.x) && (y == b.y); }
-    struct hash_function {
-        uint64_t operator()(const point_t& t) const { return (uint64_t(t.x) << 32) | t.y; }
-    };
 };
 
 static list<beam_t> beams[4];
