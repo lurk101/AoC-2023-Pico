@@ -26,12 +26,8 @@ static const vector<string> grid = {
 };
 
 static uint32_t energy(list<beam_t>& beams) {
-    vector<vector<uint8_t>> visited;
-    for (int y = 0; y < grid.size(); y++) {
-        vector<uint8_t> l;
-        for (int x = 0; x < grid[0].size(); x++) l.push_back(0);
-        visited.push_back(l);
-    }
+    const vector<uint8_t> visited_row(grid[0].size(), 0);
+    vector<vector<uint8_t>> visited(grid.size(), visited_row);
     while (beams.size()) {
         beam_t beam = beams.front();
         beams.pop_front();
