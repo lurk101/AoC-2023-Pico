@@ -1,4 +1,4 @@
-constexpr auto title = "--- Day 16: The Floor Will Be Lava ---";
+constexpr auto title = "--- Day 16: The Floor Will Be Leftava ---";
 
 #include <pico/stdlib.h>
 
@@ -13,7 +13,7 @@ constexpr auto title = "--- Day 16: The Floor Will Be Lava ---";
 using namespace std;
 using namespace chrono;
 
-enum dir { R, D, L, U };
+enum dir { Right, Down, Left, Up };
 
 struct beam_t {
     int x, y;
@@ -33,55 +33,55 @@ static uint32_t energy(list<beam_t>& beams) {
         beams.pop_front();
         if (!(visited[beam.y][beam.x] & (1 << beam.d))) {
             visited[beam.y][beam.x] |= 1 << beam.d;
-            switch (grid[beam.y][beam.x]) {  // 0 - R,
+            switch (grid[beam.y][beam.x]) {  // 0 - Right,
             case '.':
-                if (beam.d == R && beam.x < grid[0].size() - 1)
+                if (beam.d == Right && beam.x < grid[0].size() - 1)
                     beams.push_back({beam.x + 1, beam.y, beam.d});
-                else if (beam.d == L && beam.x > 0)
+                else if (beam.d == Left && beam.x > 0)
                     beams.push_back({beam.x - 1, beam.y, beam.d});
-                else if (beam.d == D && beam.y < grid.size() - 1)
+                else if (beam.d == Down && beam.y < grid.size() - 1)
                     beams.push_back({beam.x, beam.y + 1, beam.d});
-                else if (beam.d == U && beam.y > 0)
+                else if (beam.d == Up && beam.y > 0)
                     beams.push_back({beam.x, beam.y - 1, beam.d});
                 break;
             case '/':
-                if (beam.d == U && beam.x < grid[0].size() - 1)
-                    beams.push_back({beam.x + 1, beam.y, R});
-                else if (beam.d == D && beam.x > 0)
-                    beams.push_back({beam.x - 1, beam.y, L});
-                else if (beam.d == L && beam.y < grid.size() - 1)
-                    beams.push_back({beam.x, beam.y + 1, D});
-                else if (beam.d == R && beam.y > 0)
-                    beams.push_back({beam.x, beam.y - 1, U});
+                if (beam.d == Up && beam.x < grid[0].size() - 1)
+                    beams.push_back({beam.x + 1, beam.y, Right});
+                else if (beam.d == Down && beam.x > 0)
+                    beams.push_back({beam.x - 1, beam.y, Left});
+                else if (beam.d == Left && beam.y < grid.size() - 1)
+                    beams.push_back({beam.x, beam.y + 1, Down});
+                else if (beam.d == Right && beam.y > 0)
+                    beams.push_back({beam.x, beam.y - 1, Up});
                 break;
             case '\\':
-                if (beam.d == D && beam.x < grid[0].size() - 1)
-                    beams.push_back({beam.x + 1, beam.y, R});
-                else if (beam.d == U && beam.x > 0)
-                    beams.push_back({beam.x - 1, beam.y, L});
-                else if (beam.d == R && beam.y < grid.size() - 1)
-                    beams.push_back({beam.x, beam.y + 1, D});
-                else if (beam.d == L && beam.y > 0)
-                    beams.push_back({beam.x, beam.y - 1, U});
+                if (beam.d == Down && beam.x < grid[0].size() - 1)
+                    beams.push_back({beam.x + 1, beam.y, Right});
+                else if (beam.d == Up && beam.x > 0)
+                    beams.push_back({beam.x - 1, beam.y, Left});
+                else if (beam.d == Right && beam.y < grid.size() - 1)
+                    beams.push_back({beam.x, beam.y + 1, Down});
+                else if (beam.d == Left && beam.y > 0)
+                    beams.push_back({beam.x, beam.y - 1, Up});
                 break;
             case '-':
-                if (beam.d == R && beam.x < grid[0].size() - 1)
-                    beams.push_back({beam.x + 1, beam.y, R});
-                else if (beam.d == L && beam.x > 0)
-                    beams.push_back({beam.x - 1, beam.y, L});
-                else if (beam.d == D || beam.d == U) {
-                    if (beam.x < grid[0].size() - 1) beams.push_back({beam.x + 1, beam.y, R});
-                    if (beam.x > 0) beams.push_back({beam.x - 1, beam.y, L});
+                if (beam.d == Right && beam.x < grid[0].size() - 1)
+                    beams.push_back({beam.x + 1, beam.y, Right});
+                else if (beam.d == Left && beam.x > 0)
+                    beams.push_back({beam.x - 1, beam.y, Left});
+                else if (beam.d == Down || beam.d == Up) {
+                    if (beam.x < grid[0].size() - 1) beams.push_back({beam.x + 1, beam.y, Right});
+                    if (beam.x > 0) beams.push_back({beam.x - 1, beam.y, Left});
                 }
                 break;
             case '|':
-                if (beam.d == D && beam.y < grid.size() - 1)
-                    beams.push_back({beam.x, beam.y + 1, D});
-                else if (beam.d == U && beam.y > 0)
-                    beams.push_back({beam.x, beam.y - 1, U});
-                else if (beam.d == R || beam.d == L) {
-                    if (beam.y < grid.size() - 1) beams.push_back({beam.x, beam.y + 1, D});
-                    if (beam.y > 0) beams.push_back({beam.x, beam.y - 1, U});
+                if (beam.d == Down && beam.y < grid.size() - 1)
+                    beams.push_back({beam.x, beam.y + 1, Down});
+                else if (beam.d == Up && beam.y > 0)
+                    beams.push_back({beam.x, beam.y - 1, Up});
+                else if (beam.d == Right || beam.d == Left) {
+                    if (beam.y < grid.size() - 1) beams.push_back({beam.x, beam.y + 1, Down});
+                    if (beam.y > 0) beams.push_back({beam.x, beam.y - 1, Up});
                 }
                 break;
             }
@@ -101,30 +101,26 @@ void t(int i) {
     switch (i) {
     case 0:
         for (int i = 0; i < grid.size(); i++) {
-            beams[0].push_back({0, i, R});
-            uint32_t p2 = energy(beams[0]);
-            part2 = max(p2, part2);
+            beams[0].push_back({0, i, Right});
+            part2 = max(energy(beams[0]), part2);
         }
         break;
     case 1:
         for (int i = 0; i < grid.size(); i++) {
-            beams[1].push_back({int(grid.size() - 1), i, L});
-            uint32_t p2 = energy(beams[1]);
-            part2 = max(p2, part2);
+            beams[1].push_back({int(grid.size() - 1), i, Left});
+            part2 = max(energy(beams[1]), part2);
         }
         break;
     case 2:
         for (int i = 0; i < grid[0].size(); i++) {
-            beams[2].push_back({i, 0, D});
-            uint32_t p2 = energy(beams[2]);
-            part2 = max(p2, part2);
+            beams[2].push_back({i, 0, Down});
+            part2 = max(energy(beams[2]), part2);
         }
         break;
     case 3:
         for (int i = 0; i < grid[0].size(); i++) {
-            beams[3].push_back({i, int(grid[0].size() - 1), U});
-            uint32_t p2 = energy(beams[3]);
-            part2 = max(p2, part2);
+            beams[3].push_back({i, int(grid[0].size() - 1), Up});
+            part2 = max(energy(beams[3]), part2);
         }
         break;
     }
@@ -134,7 +130,7 @@ void t(int i) {
 int main() {
     stdio_init_all();
     auto start = time_us_32();
-    beams[0].push_back({0, 0, R});
+    beams[0].push_back({0, 0, Right});
     uint32_t part1 = energy(beams[0]), part2 = 0;
     thread* threads[4];
     for (int i = 0; i < 4; i++) t(i);
