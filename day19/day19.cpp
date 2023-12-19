@@ -56,8 +56,9 @@ struct flow_t {
     }
 };
 
-uint64_t combos(map<string, flow_t>& flows, const string& rule_name,
-                array<pair<int64_t, int64_t>, 4> vr) {
+static map<string, flow_t> flows;
+
+uint64_t combos(const string& rule_name, array<pair<int64_t, int64_t>, 4> vr) {
     if (rule_name == "R") return 0;
     if (rule_name == "A")
         return accumulate(vr.begin(), vr.end(), 1ll,
@@ -71,14 +72,14 @@ uint64_t combos(map<string, flow_t>& flows, const string& rule_name,
         if (r.less) {
             split[r.index].second = r.value - 1;
             vr[r.index].first = r.value;
-            result += combos(flows, r.target, split);
+            result += combos(r.target, split);
         } else {
             split[r.index].first = r.value + 1;
             vr[r.index].second = r.value;
-            result += combos(flows, r.target, split);
+            result += combos(r.target, split);
         }
     }
-    return result + combos(flows, w.all_false, vr);
+    return result + combos(w.all_false, vr);
 }
 
 static const vector<string> lines = {
@@ -90,7 +91,6 @@ int main() {
     auto start = time_us_32();
     int64_t part1 = 0;
     string line;
-    map<string, flow_t> flows;
     int i = 0;
     for (;;) {
         line = lines[i];
@@ -119,7 +119,7 @@ int main() {
     }
     constexpr array<pair<int64_t, int64_t>, 4> initial = {make_pair(1, 4000), make_pair(1, 4000),
                                                           make_pair(1, 4000), make_pair(1, 4000)};
-    int64_t part2 = combos(flows, "in", initial);
+    int64_t part2 = combos("in", initial);
     cout << title << endl
          << "Part 1  - " << part1 << endl
          << "Part 2  - " << part2 << endl
