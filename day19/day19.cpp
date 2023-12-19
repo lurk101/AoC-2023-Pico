@@ -1,17 +1,17 @@
 constexpr auto title = "--- Day 19: Aplenty ---";
 
+#include <pico/stdlib.h>
+
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <fstream>
 #include <iostream>
-#include <map>
 #include <numeric>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <vector>
-#include <algorithm>
-
-#include <pico/stdlib.h>
 
 using namespace std;
 using namespace chrono;
@@ -56,7 +56,7 @@ struct flow_t {
     }
 };
 
-static map<string, flow_t> flows;
+static unordered_map<string, flow_t> flows;
 
 uint64_t combos(const string& rule_name, array<pair<int64_t, int64_t>, 4> vr) {
     if (rule_name == "R") return 0;
