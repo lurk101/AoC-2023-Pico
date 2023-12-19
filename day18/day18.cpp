@@ -25,32 +25,31 @@ static vector<string> split(const string& s, char delim) {
     return result;
 }
 
-static int64_t solve(int part) {
+static int64_t solve(bool part2) {
     vertices.clear();
     int64_t result = 0;
-    int64_t max = 0, min = numeric_limits<int64_t>::max();
     int dir, x = 0, y = 0, steps, i = 0;
     for (auto& line : lines) {
         auto v = split(line, ' ');
-        switch (v[0][0]) {
-        case 'U':
-            dir = 0;
-            break;
-        case 'R':
-            dir = 1;
-            break;
-        case 'D':
-            dir = 2;
-            break;
-        case 'L':
-            dir = 3;
-            break;
-        }
-        steps = strtoll(v[1].c_str(), NULL, 10);
-        if (part == 2) {
-            dir = strtoll(v[2].substr(7, 1).c_str(), NULL, 10) + 1;
-            dir %= 4;
+        if (part2) {
+            dir = strtoll(v[2].substr(7, 1).c_str(), NULL, 10);
             steps = strtoll(v[2].substr(2, 5).c_str(), NULL, 16);
+        } else {
+            switch (v[0][0]) {
+            case 'U':
+                dir = 0;
+                break;
+            case 'R':
+                dir = 1;
+                break;
+            case 'D':
+                dir = 2;
+                break;
+            case 'L':
+                dir = 3;
+                break;
+            }
+            steps = strtoll(v[1].c_str(), NULL, 10);
         }
         switch (dir) {
         case 0:
@@ -68,8 +67,6 @@ static int64_t solve(int part) {
         }
         vertices.push_back(make_pair(x, y));
         i++;
-        if (x > max) max = x;
-        if (x < min) min = x;
     }
     vertices.push_back(make_pair(vertices[0].first, vertices[0].second));
     for(; i > 0; i--)
@@ -88,7 +85,7 @@ int main() {
     stdio_init_all();
     auto start = time_us_32();
     cout << title << endl
-         << "Part 1  - " << solve(1) << endl
-         << "Part 2  - " << solve(2) << endl
+         << "Part 1  - " << solve(false) << endl
+         << "Part 2  - " << solve(true) << endl
          << "Elapsed - " << (time_us_32() - start) / 1000.0 << " ms." << endl;
 }
